@@ -2,6 +2,7 @@ package com.binance.api.examples;
 
 import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.BinanceApiRestClient;
+import com.binance.api.client.SyncedTime;
 import com.binance.api.client.domain.account.Account;
 import com.binance.api.client.domain.account.Trade;
 
@@ -17,7 +18,7 @@ public class AccountEndpointsExample {
     BinanceApiRestClient client = factory.newRestClient();
 
     // Get account balances
-    Account account = client.getAccount(6000000L, System.currentTimeMillis());
+    Account account = client.getAccount(6000000L, SyncedTime.getInstance(-1).currentTimeMillis());
     System.out.println(account.getBalances());
     System.out.println(account.getAssetBalance("ETH"));
 
