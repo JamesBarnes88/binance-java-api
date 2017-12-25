@@ -61,9 +61,12 @@ public class ExchangeInfo {
    * @return symbol exchange information
    */
   public SymbolInfo getSymbolInfo(String symbol) {
-    return symbols.stream().filter(symbolInfo -> symbolInfo.getSymbol().equals(symbol))
-        .findFirst()
-        .orElseThrow(() -> new BinanceApiException("Unable to obtain information for symbol " + symbol));
+    for (SymbolInfo symbolInfo : symbols) {
+      if (symbolInfo.getSymbol().equals(symbol))
+        return symbolInfo;
+    }
+
+    throw new BinanceApiException("Unable to obtain information for symbol " + symbol);
   }
 
   @Override
