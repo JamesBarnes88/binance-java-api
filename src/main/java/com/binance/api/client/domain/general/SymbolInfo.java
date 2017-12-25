@@ -1,6 +1,7 @@
 package com.binance.api.client.domain.general;
 
 import com.binance.api.client.domain.OrderType;
+import com.binance.api.client.exception.BinanceApiException;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -108,10 +109,12 @@ public class SymbolInfo {
    * @return symbol filter information for the provided filter type.
    */
   public SymbolFilter getSymbolFilter(FilterType filterType) {
-    return filters.stream()
-        .filter(symbolFilter -> symbolFilter.getFilterType() == filterType)
-        .findFirst()
-        .get();
+    for (SymbolFilter filter : filters) {
+      if (filter.getFilterType() == filterType)
+        return filter;
+    }
+
+    throw new BinanceApiException("Unable to obtain information for filterType " + filterType);
   }
 
   @Override
